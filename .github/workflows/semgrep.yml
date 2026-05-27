@@ -1,10 +1,10 @@
 name: Semgrep SAST Scan
 
 on:
-  push:
-    branches: [ main, master ]   # Triggers on push to main/master
   pull_request:
-    branches: [ main, master ]   # Triggers on any PR targeting main/master
+    branches: [ main, master ]
+  push:
+    branches: [ main, master ]
 
 jobs:
   semgrep:
@@ -12,6 +12,7 @@ jobs:
     container:
       image: semgrep/semgrep
     steps:
-    - uses: actions/checkout@v4
-    - name: Run Semgrep with OWASP Top 10 rules
-      run: semgrep scan --config "p/owasp-top-ten" --error .
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Run Semgrep with OWASP Top 10 rules
+        run: semgrep scan --config "p/owasp-top-ten" --error .
